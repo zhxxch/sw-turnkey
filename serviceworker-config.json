@@ -1,0 +1,20 @@
+{
+  "precache_urls": [
+    "/canvas/",
+    "/canvas/fabric.min.js",
+    "/canvas/gif.js",
+    "/canvas/gif.worker.js",
+    "/canvas/serviceworker-install.js",
+    "/canvas/serviceworker.js",
+    "/canvas/serviceworker-config.json"
+  ],
+  "network_only": {
+    "re": "cachenever\\.js"
+  },
+  "cache_no_revalidate": {
+    "re": "fabric\\.min|gif.*js"
+  },
+  "network_first": {
+    "re": "networkfirst\\.js"
+  }
+}
