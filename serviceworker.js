@@ -54,14 +54,14 @@
     var configObj;
     event.respondWith(makeFetchConfigPromise(configURL).then(function(response) {
       configObj = response;
-      if (event.request.url.match(configObj.network_only.re)) {
+      if (configObj.network_only && event.request.url.match(configObj.network_only.re)) {
         return fetch(event.request).catch(function() {});
       }
       return caches.match(event.request).then(function(cacheResponse) {
-        if (cacheResponse && event.request.url.match(configObj.cache_no_revalidate.re)) {
+        if (cacheResponse && configObj.cache_no_revalidate && event.request.url.match(configObj.cache_no_revalidate.re)) {
           return cacheResponse;
         }
-        if (event.request.url.match(configObj.network_first.re)) {
+        if (configObj.network_first && event.request.url.match(configObj.network_first.re)) {
           return makeNetworkFirstPromise(event.request, cacheResponse);
         }
         var fetchPromise = makeFetchCachePromise(event.request).catch(function() {});
