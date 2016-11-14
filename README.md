@@ -93,3 +93,53 @@ Also place `serviceworker-config.json` with these contents:
 <input type=button onclick="alert('Hi')" />
 </body>
 ```
+
+## Example 2: Single-Page App with dynamic component
+
+Imagine you have a single-page app (SPA) with a button that you click
+and it loads dynamically-generated content from your website. You want
+that to load fast, but you don't want to cache that generated content,
+and you don't mind it not working offline.
+
+`index.html` before:
+
+```
+<!doctype html>
+<body>
+<a href="dynamic.cgi" target="iframe">Load</a>
+<br />
+<iframe name=iframe></iframe>
+</body>
+```
+
+You'll need to add the same `serviceworker.js` and `serviceworker-install.js`.
+
+For most of this content, the default "stale while revalidate" strategy,
+together with pre-caching works well, but we'll also use `network_only`
+for `dynamic.cgi`. So we'll use this `serviceworker-config.json`:
+
+```
+{
+  "precache_urls": [
+    "",
+    "serviceworker-install.js",
+    "serviceworker.js",
+    "serviceworker-config.json"
+  ],
+  "network_only": {
+    "re": "dynamic\\.cgi.*"
+  }
+}
+```
+
+`index.html` after:
+
+```
+<!doctype html>
+<script src="serviceworker-install.js"></script>
+<body>
+<a href="dynamic.cgi" target="iframe">Load</a>
+<br />
+<iframe name=iframe></iframe>
+</body>
+```
