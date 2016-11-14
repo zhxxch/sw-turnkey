@@ -51,3 +51,45 @@ The values of these are all hashes with currently one key, "re" - a
 regular expression. A fetched URL is checked against each in the above
 order. When it matches, it will use that strategy. If none match, will
 fall back to "stale while revalidate".
+
+## Example 1: Single-Page App
+
+Imagine you have a single-page app (SPA) with a button that you click
+and it says "Hi". You want that to work offline!
+
+`index.html` before:
+
+```
+<!doctype html>
+<body>
+<input type=button onclick="alert('Hi')" />
+</body>
+```
+
+To make this available offline, and generally be fast, we will use the
+default "stale while revalidate" strategy, together with pre-caching.
+
+To use `sw-turnkey` here, drop `serviceworker-install.js` and
+`serviceworker.js` into the same directory as `index.html`.
+Also place `serviceworker-config.json` with these contents:
+
+```
+{
+  "precache_urls": [
+    "",
+    "serviceworker-install.js",
+    "serviceworker.js",
+    "serviceworker-config.json"
+  ]
+}
+```
+
+`index.html` after:
+
+```
+<!doctype html>
+<script src="serviceworker-install.js"></script>
+<body>
+<input type=button onclick="alert('Hi')" />
+</body>
+```
