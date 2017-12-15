@@ -14,10 +14,9 @@
 
   function makeFetchCachePromise(request) {
     return fetch(request).then(function (networkResponse) {
-      var nrClone = networkResponse.clone();
       if (networkResponse.ok) {
         caches.open(cachename).then(function(cache) {
-          return cache.put(request, nrClone);
+          return cache.put(request, networkResponse.clone());
         });
       }
       return networkResponse;
