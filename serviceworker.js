@@ -8,7 +8,7 @@
     return caches.match(request).then(function(cacheResponse) {
       return makeNetworkFirstPromise(request, cacheResponse);
     }).then(function(response) {
-      return response.json();
+      return response.clone().json();
     });
   }
 
